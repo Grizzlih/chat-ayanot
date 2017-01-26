@@ -1,0 +1,145 @@
+<script>
+
+    (function(){
+        //////////
+        /// app
+        ////////////////////////////////////
+        angular.module('chatroom', [])
+                .config(httpProvider)
+                .controller('mainController', mainController)
+                .service('parseService', parseService)
+                .factory('httpRequestInterceptor', httpRequestInterceptor);
+
+        /////////////
+        /// Config
+        ////////////////////////////////////
+        function httpProvider($httpProvider){
+            $httpProvider.interceptors.push('httpRequestInterceptor');
+        };
+
+        /////////////////
+        /// Controller
+        ////////////////////////////////////
+        function mainController(parseService){
+            var vm = this;
+
+            vm.getParseData = function() {
+                parseService.getData().then(function(response){
+                    vm.messages = response.data.results;
+                });
+            };
+
+            vm.postData = function() {
+                parseService.postData(vm.message).then(function(success){
+                    console.log('SUCCESS:', success.status, success.statusText);
+                }, function(error){
+                    console.log('ERROR:', error.status, error.statusText);
+                });
+                vm.message = '';
+            };
+
+            setInterval(function(){
+                vm.getParseData();
+            }, 1500)
+        }
+
+        //////////////
+        /// Service
+        ////////////////////////////////////
+        function parseService($http){
+            this.getData = function() {
+                return $http({
+                    method: 'GET',
+                    url: 'https://api.parse.com/1/classes/chat?order=-createdAt'
+                });
+            };
+
+            this.postData = function(message) {
+                !message ? message = '...' : message;
+                return $http({
+                    method: 'POST',
+                    url: 'https://api.parse.com/1/classes/chat',
+                    data: {text: message}
+                });
+            }
+        }
+
+        //////////////
+        /// Headers
+        ////////////////////////////////////
+        function httpRequestInterceptor() {
+            return {
+                request: function (config) {
+                    config.headers = {
+                        'X-Parse-Application-Id': '5oA4oab0RNwHkfRrXt5WlMqDnzUu6bcmpf4P2uKy',
+                        'X-Parse-REST-API-Key': 'ZIKuhgCABMrP0kLnSMlEYWYlljNWtHnJzYaKwWc8'
+                    }
+                    return config;
+                }
+            };
+        }
+
+    })();
+</script>
+<style>
+    .bg {
+        background-image: url("http://i.giphy.com/xTiTnxpQ3ghPiB2Hp6.gif");
+    }
+    .jumbotron {
+        background: rgba(0,0,0,0);
+        width: 100%;
+        color: #fff;
+    }
+    .text-box {
+        margin: 0px auto;
+        width: 40%;
+    }
+    form {
+        text-align: center;
+        margin: 0 auto;
+        font-size: 17px;
+    }
+    .message-text {
+        font-size: 1.5em;
+    }
+    .message-createdAt {
+        text-align: right;
+        font-size: 0.7em;
+        font-variant: small-caps;
+    }
+
+</style>
+
+<body ng-app="chatroom" ng-controller="mainController as ctrl">
+<div class="container-fluid bg">
+    <div class="jumbotron text-center">
+        <h1>Angular Chat Room</h1>
+        <!--h5.text-center
+        a(ng-click="toggleChat = !toggleChat") Chat
+        |
+        a(ng-click="toggleSearch = !toggleSearch") Search
+        |
+        a(ng-click="toggleSort = !toggleSort") Sort
+
+        -->
+    </div>
+</div>
+<h1>{{blabla}}</h1>
+<div class="container-fluid"><br/>
+    <form ng-submit="ctrl.postData()">
+        <input type="text" ng-model="ctrl.message" placeholder="Message" class="form-control text-box"/>
+    </form><br/>
+    <!--form(ng-show="toggleSearch" ng-submit="ctrl.postData()")
+    input.form-control.text-box(type="text" ng-model="ctrl.message" placeholder="Search")
+
+    -->
+    <!--form(ng-show="toggleSort" ng-submit="ctrl.postData()")input.form-control.text-box(type="text" ng-model="ctrl.message" placeholder="Sort")
+    -->
+    <table class="table table-striped">
+        <tr ng-repeat="message in ctrl.messages">
+            <td class="message-text">{{message.text}}</td>
+            <td class="message-createdAt"><br/>{{message.createdAt}}</td>
+        </tr>
+    </table>
+</div>
+</body>

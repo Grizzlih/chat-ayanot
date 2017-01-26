@@ -1,0 +1,102 @@
+<style>
+    @import url(https://fonts.googleapis.com/css?family=Inconsolata);
+    .message-createdAt {
+        text-align: right;
+
+    }
+  .table {
+      font-size: 25px;
+      font-family: 'Inconsolata',sans-serif;
+
+  }
+
+    .online-users {
+        display: inline-block;
+        list-style: none;
+
+    }
+    .online-users li {
+        background: lightseagreen;
+        width: 40px;
+        height: 28px;
+        border-radius: 7px;
+        line-height: 1.9;
+        text-align: center;
+    }
+    .nav li button {
+        margin-top: 3px;
+        margin-left: 3px;
+    }
+
+
+</style>
+
+<body ng-app="chatroom" ng-controller="mainController as ctrl">
+
+<ul class="nav nav-tabs">
+    <li role="presentation"><a href="#">Profile</a></li>
+    <li role="presentation"><a href="#">User : {{checkUser}}</a></li>
+    <li role="presentation"><a href="#"><strong>Chat</strong> <em>Room</em></a></li>
+    <li role="presentation"><div class="dropdown">
+        <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            Users
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" >
+            <li ng-repeat="PIZDECURANAHUI in usersNickNames" ><a href="#">{{PIZDECURANAHUI}}</a></li>
+        </ul>
+    </div></li>
+    <li role="presentation">     <button class="btn btn-primary" type="button">
+        Onlile users: <span class="badge">{{chatUsers}}</span>
+    </button></li>
+    <li role="presentation" class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+            <strong>Social</strong><em>'s</em> <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+            <li role="presentation" ng-click="myLogOut()"><a href="#">Log Out</a></li>
+            <li role="presentation"><a href="#">FaceBook</a></li>
+            <li role="presentation"><a href="#">Vkontakte</a></li>
+            <li role="presentation"><a href="#">Goolge+</a></li>
+        </ul>
+    </li>
+</ul>
+<div class="alert alert-info" role="alert"><h2></h2></div>
+
+
+<div class="container-fluid"><br/>
+    <form ng-submit="ctrl.postData()">
+        <input type="text" ng-model="ctrl.message" placeholder="Message" class="form-control text-box"/>
+
+    </form><br/>
+    <!--form(ng-show="toggleSearch" ng-submit="ctrl.postData()")
+    input.form-control.text-box(type="text" ng-model="ctrl.message" placeholder="Search")
+
+    -->
+    <!--form(ng-show="toggleSort" ng-submit="ctrl.postData()")input.form-control.text-box(type="text" ng-model="ctrl.message" placeholder="Sort")
+    -->
+
+    <table class="table table-striped">
+        <tr ng-repeat="message in ctrl.messages">
+            <td  class="message-text">{{message.chatUser}}: {{message.text}}</td>
+            <td  class="message-createdAt"><br/>{{message.createdAt}}
+                <button type="button" ng-click="deleteAllMessages()" class="btn btn-danger btn-lg">
+                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Delete
+                </button>
+            </td>
+        </tr>
+    </table>
+
+    <!--<ul class="list-group" ng-repeat="message in ctrl.messages">-->
+        <!--<li class="list-group-item">-->
+            <!--<span class="label label-primary">{{message.createdAt}}</span>-->
+            <!--{{message.text}}-->
+        <!--</li>-->
+    <!--</ul>-->
+
+
+
+
+</div>
+</body>
+</html>

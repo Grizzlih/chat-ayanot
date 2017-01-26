@@ -1,0 +1,28 @@
+.bg {
+    background-image: url("http://i.giphy.com/xTiTnxpQ3ghPiB2Hp6.gif");
+}
+.jumbotron {
+    background: rgba(0,0,0,0);
+    width: 100%;
+    color: #fff;
+    font-family: sans-serif;
+}
+.text-box {
+    margin: 0px auto;
+    width: 40%;
+}
+form {
+    text-align: center;
+    margin: 0 auto;
+    font-size: 17px;
+}
+.message-text {
+    font-size: 1.5em;
+}
+.message-createdAt {
+    text-align: right;
+    margin-right: 20px;
+    font-size: 0.7em;
+    font-variant: small-caps;
+}
+

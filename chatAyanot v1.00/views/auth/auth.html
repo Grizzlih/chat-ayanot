@@ -1,0 +1,93 @@
+
+<style>
+    body {
+        font-family: sans-serif;
+        font-size: 17px;
+        background: url(9.jpg);
+        background-repeat: no-repeat;
+        background-attachment:fixed;
+        background-position: right;
+
+    }
+    .alert {
+        margin-top: 20px;
+    }
+    .container {
+        width: 300px;
+        text-align: center;
+        border: 1px solid white;
+        box-shadow: 1px 1px 5px 1px white;
+        background: white;
+        padding: 30px;
+        margin-top: 7%;
+        opacity: .9;
+    }
+    .help-block {
+        color: red;
+    }
+    label {
+        color: black;
+    }
+    input {
+        -webkit-transition: .7s all;
+        outline: none;
+        width: 200px;
+        height: 38px;
+        border: none;
+        font-family: sans-serif;
+        font-size: 17px;
+        color: black;
+        padding-left: 10px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    input.ng-invalid {
+        box-shadow: 1px 1px 3px 1px lightslategray;
+    }
+    input.ng-valid {
+        box-shadow: 1px 1px 5px 1px lightskyblue;
+    }
+
+    .nav {
+        font-size: 17px;
+
+    }
+
+</style>
+<!--HEADER-->
+<ul class="nav nav-tabs">
+    <li role="presentation"><a href="#">Log <em>In</em></a></li>
+    <li role="presentation"><a href="#">User : {{checkUser}}</a></li>
+    <li role="presentation"><a href="#"><strong>Chat</strong> <em>Room</em></a></li>
+    <li role="presentation" class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+            <strong>Social</strong><em>'s</em> <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+            <li role="presentation"><a href="#">Log Out</a></li>
+            <li role="presentation" ng-click="goLogInPage()"><a href="#">Log <em>In</em></a></li>
+            <li role="presentation"><a href="#">Vkontakte</a></li>
+            <li role="presentation"><a href="#">Goolge+</a></li>
+        </ul>
+    </li>
+</ul>
+
+<!--SOME STAFF-->
+
+ <!--USER FORM-->
+<div class="container" >
+    <form name="userFormTwo" novalidate>
+        <div class="form-group"  ng-class="{ 'has-error' : userFieldForm.email.$invalid }">
+            <ng-form name="userFieldForm">
+                <label class="label label-primary">Your nick name is : {{name}}</label>
+                <input type="name"  name="name" ng-model="name" placeholder=" | Nickname"  required />
+                <input type="password" ng-model="password" placeholder=" | Password" required/>
+                <label  class="label label-primary"> Your email is : {{ email }}</label>
+                <input type="email"  name="email" ng-model="email" placeholder=" | Email"  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
+                <p class="alert alert-danger" ng-show="userFieldForm.email.$invalid">Email или NickName введены не верно!</p>
+                <p class="alert alert-success" ng-show="userFieldForm.email.$valid">Email и NickName введены верно!</p>
+                <button ng-click="signUp()" class="btn btn-primary" ng-disabled="userFieldForm.email.$invalid">Sign in</button>
+            </ng-form>
+        </div>
+    </form>
+</div>
